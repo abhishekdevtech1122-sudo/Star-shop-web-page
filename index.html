@@ -1,291 +1,748 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>मर्चेंट रजिस्ट्रेशन | Star Shop</title>
-    <style>
-        :root {
-            --bg-color: #0b0b0f;
-            --text-color: #f3f4f6;
-            --card-bg: #16161a;
-            --border-color: #27272a;
-            --input-bg: #1f1f23;
-            --input-text: #f3f4f6;
-            --btn-bg: #f3f4f6;
-            --btn-text: #0b0b0f;
-            --accent-gray: #9ca3af;
-            --badge-bg: #d4af37;
-            --badge-text: #0b0b0f;
-            --success-color: #10b981;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#050505" id="themeColorMeta">
+  <title>Star Shops | Master Engine</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    
+    html, body { 
+      width: 100%; 
+      min-height: 100vh; 
+      background-color: #030303; 
+      color: #FFFFFF; 
+      overflow-x: hidden; 
+      display: flex; 
+      justify-content: center; 
+      transition: background 0.3s, color 0.3s; 
+    }
+    
+    html.white-mode, body.white-mode { background-color: #F8F9FA !important; color: #111827 !important; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+    .device-shell { 
+      width: 100%; 
+      max-width: 480px; 
+      min-height: 100vh; 
+      background-color: #050505; 
+      color: #FFFFFF; 
+      position: relative; 
+      display: flex; 
+      flex-direction: column; 
+      padding-bottom: 90px; 
+      border-left: 1px solid rgba(212,175,55,0.2); 
+      border-right: 1px solid rgba(212,175,55,0.2); 
+      transition: all 0.3s ease; 
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    /* FULL PAGE VELVET WHITE THEME STYLING */
+    .device-shell.white-mode { background-color: #F8F9FA !important; color: #111827 !important; }
+    .device-shell.white-mode .top-header { background: rgba(255, 255, 255, 0.95) !important; border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important; }
+    .device-shell.white-mode .brand-title { background: linear-gradient(to right, #9A3412, #C2410C) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+    .device-shell.white-mode .google-search-bar { background: #FFFFFF !important; border: 1px solid #D1D5DB !important; box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important; }
+    .device-shell.white-mode .google-search-bar input { color: #111827 !important; }
+    .device-shell.white-mode .google-search-bar input::placeholder { color: #9CA3AF !important; }
+    .device-shell.white-mode .category-pill { background: #FFFFFF !important; border: 1px solid #D1D5DB !important; color: #374151 !important; }
+    .device-shell.white-mode .category-pill.active { background: #111827 !important; color: #FFFFFF !important; border: none !important; }
+    .device-shell.white-mode .merchant-card { background: #FFFFFF !important; border: 1px solid #E5E7EB !important; box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important; }
+    .device-shell.white-mode .store-title { color: #111827 !important; -webkit-text-fill-color: #111827 !important; }
+    .device-shell.white-mode .store-address { color: #6B7280 !important; }
+    .device-shell.white-mode .google-sleek-nav { background: rgba(255, 255, 255, 0.95) !important; border: 1px solid rgba(0, 0, 0, 0.1) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important; }
+    .device-shell.white-mode .sleek-nav-item { color: #6B7280 !important; }
+    .device-shell.white-mode .sleek-nav-item.active { color: #FFFFFF !important; background: #111827 !important; }
+    .device-shell.white-mode .header-location-badge { background: #F3F4F6 !important; border: 1px solid #D1D5DB !important; color: #374151 !important; }
+    .device-shell.white-mode .theme-toggle-btn { background: #F3F4F6 !important; border: 1px solid #D1D5DB !important; color: #374151 !important; }
+    .device-shell.white-mode .drawer-content { background: #FFFFFF !important; color: #111827 !important; }
+    .device-shell.white-mode .drawer-item { background: #F3F4F6 !important; color: #111827 !important; border: 1px solid #D1D5DB !important; }
 
-        .container {
-            width: 100%;
-            max-width: 440px;
-        }
+    /* Luxury Black Velvet & Metallic Gold Theme Defaults - FULL BRAND VISIBILITY */
+    .top-header { background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(20px); padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.25); position: sticky; top: 0; z-index: 40; width: 100%; gap: 6px; }
+    .brand-container { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .brand-title { font-size: 15px; font-weight: 900; letter-spacing: 0.5px; background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; flex-shrink: 0; }
 
-        .form-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 36px 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
+    /* Header Actions */
+    .header-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 1; min-width: 0; }
+    .theme-toggle-btn { background: #121212; border: 1px solid rgba(212,175,55,0.4); color: #FCF6BA; padding: 5px 8px; border-radius: 20px; font-size: 10.5px; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; }
+    .header-location-badge { font-size: 10.5px; color: #FCF6BA; background: #111; padding: 5px 8px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.3); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 115px; }
+    .burger-btn { background: #121212; border: 1px solid rgba(212,175,55,0.4); color: #FCF6BA; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; flex-shrink: 0; }
 
-        .premium-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--badge-bg);
-            color: var(--badge-text);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 6px 16px;
-            border-bottom-left-radius: 14px;
-        }
+    /* Live Search Bar */
+    .google-search-bar { margin: 10px 16px 6px 16px; background: #121212; border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 28px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); transition: border 0.2s; }
+    .google-search-bar:focus-within { border-color: #FCF6BA; }
+    .google-search-bar input { border: none; outline: none; width: 100%; font-size: 13.5px; color: inherit; background: transparent; }
+    .google-search-bar input::placeholder { color: #888888; }
+    .clear-search-btn { background: rgba(255,255,255,0.1); border: none; color: #9CA3AF; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; display: none; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
 
-        .form-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
+    /* Dynamic Category Pills Bar */
+    .categories-pills-bar { display: flex; gap: 8px; padding: 6px 16px 10px 16px; overflow-x: auto; scrollbar-width: none; width: 100%; min-height: 46px; align-items: center; }
+    .categories-pills-bar::-webkit-scrollbar { display: none; }
+    .category-pill { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; background: #121212; border: 1px solid rgba(212,175,55,0.3); color: #FCF6BA; padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; height: 34px; transition: all 0.2s; }
+    .category-pill.active { background: linear-gradient(to right, #BF953F, #FCF6BA); color: #050505; border: none; box-shadow: 0 2px 8px rgba(212,175,55,0.3); }
 
-        .form-header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
+    /* Tab Screens */
+    .tab-screen { display: none !important; padding: 0 16px 16px 16px; width: 100%; }
+    .tab-screen.active { display: block !important; }
+    .tab-screen#tab-map { padding: 0 !important; height: calc(100vh - 65px); }
+    .tab-screen#tab-map.active { display: flex !important; flex-direction: column; }
 
-        .form-header p {
-            font-size: 0.85rem;
-            color: var(--accent-gray);
-        }
+    /* Clean Merchant Card - FULL SHOP NAME VISIBILITY */
+    .merchant-card { background: #0A0A0A; border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); cursor: pointer; transition: transform 0.2s; }
+    .merchant-card:active { transform: scale(0.98); }
+    .card-banner { height: 145px; background: #111; position: relative; width: 100%; }
+    .card-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 14px; }
+    
+    .store-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; width: 100%; }
+    .store-title { font-size: 16px; font-weight: 900; background: linear-gradient(to right, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.3; flex: 1; word-break: break-word; }
+    
+    /* EXACT NATURAL GOLD BADGE */
+    .star-merchant-badge { 
+      flex-shrink: 0; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 3px; 
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728); 
+      color: #030303 !important; 
+      -webkit-text-fill-color: #030303 !important;
+      font-size: 9px; 
+      font-weight: 900; 
+      padding: 3px 8px; 
+      border-radius: 12px; 
+      box-shadow: 0 2px 8px rgba(212,175,55,0.4); 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      margin-top: 2px;
+    }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+    .store-address { font-size: 12px; color: #9CA3AF; line-height: 1.4; }
+    .distance-tag { font-size: 11px; color: #D4AF37; font-weight: 800; margin-left: 4px; }
 
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
+    /* Full Screen Map Container */
+    #mapContainer { width: 100%; height: 100% !important; flex-grow: 1; background: #111; position: relative; border-radius: 0 !important; border: none !important; }
+    .leaflet-control-attribution { display: none !important; }
+    
+    .map-layer-switcher { position: absolute; top: 16px; right: 16px; z-index: 1000; background: rgba(10,10,10,0.9); border: 1px solid rgba(212,175,55,0.4); border-radius: 8px; padding: 4px; display: flex; gap: 4px; }
+    .layer-btn { background: transparent; border: none; color: #FCF6BA; font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+    .layer-btn.active { background: #FCF6BA; color: #050505; }
 
-        input[type="text"],
-        input[type="tel"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px 14px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border-color);
-            color: var(--input-text);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-        }
+    /* Sleek Bottom Navigation Bar */
+    .google-sleek-nav { 
+      position: fixed; 
+      bottom: 12px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      width: calc(100% - 24px); 
+      max-width: 440px; 
+      background: rgba(18, 18, 18, 0.96); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px); 
+      border: 1px solid rgba(212,175,55,0.3); 
+      border-radius: 35px; 
+      display: flex; 
+      justify-content: space-between;
+      align-items: center; 
+      padding: 6px; 
+      z-index: 9999; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85); 
+      gap: 4px; 
+    }
+    
+    .sleek-nav-item { 
+      flex: 1 1 0; 
+      min-width: 0; 
+      text-align: center; 
+      color: #9CA3AF; 
+      font-size: 10px; 
+      font-weight: 800; 
+      cursor: pointer; 
+      padding: 7px 4px; 
+      border-radius: 25px; 
+      transition: all 0.25s ease; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center;
+      gap: 2px; 
+      white-space: nowrap;
+    }
+    .sleek-nav-item span:first-child { font-size: 14px; line-height: 1; }
+    .sleek-nav-item.active { color: #050505; background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); box-shadow: 0 2px 10px rgba(212,175,55,0.4); }
 
-        .photo-upload-container {
-            border: 2px dashed var(--border-color);
-            background-color: var(--input-bg);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    /* Side Drawer Menu */
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: none; justify-content: flex-start; backdrop-filter: blur(5px); }
+    .drawer-overlay.open { display: flex; }
+    .drawer-content { width: 280px; height: 100%; background: #0A0A0A; border-right: 1px solid rgba(212,175,55,0.3); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .drawer-item { padding: 14px; background: #121212; border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; color: #FCF6BA; font-weight: 800; font-size: 14px; cursor: pointer; text-align: left; text-decoration: none; display: flex; align-items: center; gap: 10px; width: 100%; }
 
-        .photo-upload-input {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
-        }
-
-        .upload-placeholder {
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
-        }
-
-        .photo-preview-box {
-            display: none; width: 100%; align-items: center; gap: 12px;
-        }
-
-        .photo-preview-box img {
-            width: 56px; height: 56px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color);
-        }
-
-        .location-wrapper { display: flex; gap: 8px; }
-        .location-btn {
-            background-color: var(--border-color); color: var(--text-color); border: none; padding: 0 14px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
-        }
-
-        .submit-btn {
-            width: 100%; padding: 13px; background-color: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 8px;
-        }
-    </style>
+    /* Floating Window (Bottom Card Overlay) */
+    .maps-bottom-card-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999999; display: none; align-items: flex-end; backdrop-filter: blur(2px); }
+    .maps-bottom-card-overlay.open { display: flex; }
+    .maps-bottom-card { width: 100%; max-width: 480px; margin: 0 auto; background: #0A0A0A; border-top: 1px solid rgba(212,175,55,0.4); border-radius: 24px 24px 0 0; padding: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); }
+    .device-shell.white-mode .maps-bottom-card { background: #FFFFFF !important; color: #111827 !important; }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="form-card">
-            <div class="premium-badge">VVIP PARTNER</div>
-
-            <div class="form-header">
-                <h1>मर्चेंट रजिस्ट्रेशन</h1>
-                <p>Star Shop Partner Program</p>
-            </div>
-
-            <form id="merchantForm">
-                <div class="form-group">
-                    <label for="merchantId">मर्चेंट यूनिक आईडी (Store Username/ID)</label>
-                    <input type="text" id="merchantId" placeholder="जैसे: aone_store या star123" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">दुकान का नाम (Store Name)</label>
-                    <input type="text" id="name" placeholder="अपनी दुकान का नाम दर्ज करें" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">फोन नंबर</label>
-                    <input type="tel" id="phone" placeholder="10 अंकों का मोबाइल नंबर" pattern="[0-9]{10}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="category">दुकान की कैटेगरी (Store Category)</label>
-                    <input type="text" id="category" list="categoryList" placeholder="अपनी कैटेगरी चुनें..." required>
-                    <datalist id="categoryList">
-                        <option value="Kirana & Grocery">
-                        <option value="Salon & Beauty">
-                        <option value="Clothing & Fashion">
-                        <option value="Cafe & Food">
-                        <option value="Electronics">
-                    </datalist>
-                </div>
-
-                <div class="form-group">
-                    <label>दुकान की फोटो (Store Photo)</label>
-                    <div class="photo-upload-container">
-                        <input type="file" id="storeImageFile" class="photo-upload-input" accept="image/*" onchange="previewSelectedImage(event)">
-                        <div class="upload-placeholder" id="uploadPlaceholder">
-                            <span>📷 गैलरी से फोटो चुनें</span>
-                        </div>
-                        <div class="photo-preview-box" id="photoPreviewBox">
-                            <img id="previewImg" src="">
-                            <div id="fileNameText" style="font-size:0.85rem;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="address">व्यापार का एड्रेस</label>
-                    <textarea id="address" placeholder="पूरा पता लिखें..." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="location">GPS लोकेशन</label>
-                    <div class="location-wrapper">
-                        <input type="text" id="location" placeholder="GPS लोकेशन..." required>
-                        <button type="button" class="location-btn" onclick="getGPSLocation()">लोकेशन लें</button>
-                    </div>
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">दुकान लाइव करें 🚀</button>
-            </form>
-        </div>
+<div class="device-shell" id="appDeviceShell">
+  <header class="top-header">
+    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+      <div class="burger-btn" onclick="toggleDrawer(true)">☰</div>
+      <div class="brand-container">
+        <div class="brand-title">★ STAR SHOPS</div>
+      </div>
     </div>
+    <div class="header-actions">
+      <button class="theme-toggle-btn" onclick="toggleInterfaceTheme()" id="themeToggleBtn">☀️ व्हाइट मोड</button>
+      <div class="header-location-badge" id="headerLocationText" onclick="triggerGeoFencingScan()">📍 बेगमपुर, दिल्ली</div>
+    </div>
+  </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const SUPABASE_URL = 'https://gejrzpflcuvlbpedliwq.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_dw9J2AX0nd3SxPrRy9JGCg_YqS8ZfUF';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <!-- Live Search Bar -->
+  <div class="google-search-bar" id="topSearchBarArea">
+    <span>🔍</span>
+    <input type="text" id="storeSearchInput" placeholder="जेमिनी एआई सर्च: दुकान, एरिया या सर्विस खोजें..." oninput="handleLiveSearch(this.value)" autocomplete="off">
+    <button class="clear-search-btn" id="clearSearchBtn" onclick="clearLiveSearch()">✕</button>
+  </div>
 
-        function previewSelectedImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('fileNameText').textContent = file.name;
-                    document.getElementById('uploadPlaceholder').style.display = 'none';
-                    document.getElementById('photoPreviewBox').style.display = 'flex';
-                }
-                reader.readAsDataURL(file);
-            }
+  <!-- Dynamic Category Pills Bar -->
+  <div class="categories-pills-bar" id="dynamicCategoriesBar">
+    <div class="category-pill active" onclick="filterCategory('ALL', this)">सभी दुकानें</div>
+  </div>
+
+  <!-- TAB 1: HOME FEED -->
+  <main id="tab-home" class="tab-screen active">
+    <div style="font-size: 13px; font-weight: 900; margin: 4px 0 12px 0; display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span>🏪</span> <span>Explore Local Vibe (v1.0)</span>
+      </div>
+      <span id="activeAreaSubtext" style="font-size:11px; color:#D4AF37; font-weight:800;"></span>
+    </div>
+    <div id="dynamicStoresContainer">
+      <div style="text-align:center; padding:40px; color:#757575;">दुकानें लोड हो रही हैं...</div>
+    </div>
+  </main>
+
+  <!-- TAB 2: PROVEN STABLE MAP -->
+  <main id="tab-map" class="tab-screen">
+    <div id="mapContainer">
+      <div class="map-layer-switcher">
+        <button class="layer-btn active" id="layerStandard" onclick="setMapLayer('standard')">स्ट्रीट व्यू</button>
+        <button class="layer-btn" id="layerSatellite" onclick="setMapLayer('satellite')">सैटेलाइट</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- TAB 3: LIVE NOTIFICATIONS (MESSAGE BOX WITH CATEGORY SYNC) -->
+  <main id="tab-alerts" class="tab-screen">
+    <div style="font-size: 13px; font-weight: 900; margin: 4px 0 12px 0; display:flex; justify-content:space-between; align-items:center;">
+      <span>⚡ लाइव सूचना फीड</span>
+      <span id="activeAlertCategoryBadge" style="font-size:11px; color:#D4AF37; font-weight:800;">सभी दुकानें</span>
+    </div>
+    <div id="liveAlertsContainer">
+      <div style="text-align:center; padding:40px; color:#757575;">सूचनाएं लोड हो रही हैं...</div>
+    </div>
+  </main>
+
+  <!-- GOOGLE MAPS STYLE BOTTOM NAVIGATION BAR -->
+  <nav class="google-sleek-nav" id="bottomScrollingNav">
+    <div class="sleek-nav-item active" id="navHomeBtn" onclick="switchTab('home')">
+      <span>📍</span>
+      <span>Explore</span>
+    </div>
+    <div class="sleek-nav-item" id="navMapBtn" onclick="switchTab('map')">
+      <span>📌</span>
+      <span>You</span>
+    </div>
+    <div class="sleek-nav-item" id="navAlertsBtn" onclick="switchTab('alerts')">
+      <span>⚡</span>
+      <span>Live Feed</span>
+    </div>
+    <div class="sleek-nav-item" onclick="openNetlifyForm()">
+      <span>➕</span>
+      <span>Add Place</span>
+    </div>
+    <div class="sleek-nav-item" onclick="toggleDrawer(true)">
+      <span>⚙️</span>
+      <span>Menu</span>
+    </div>
+  </nav>
+
+  <!-- SIDE DRAWER MENU -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="if(event.target === this) toggleDrawer(false)">
+    <div class="drawer-content">
+      <div style="font-size: 18px; font-weight: 900; margin-bottom: 6px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 12px;">⚡ नेविगेशन मेन्यू</div>
+      <button onclick="openNetlifyForm()" class="drawer-item">➕ Add Place (दुकान जोड़ें)</button>
+      <button class="drawer-item" onclick="toggleDrawer(false); switchTab('map');">🗺️ स्ट्रीट मैप व्यू</button>
+      <button class="drawer-item" onclick="toggleDrawer(false); switchTab('alerts');">⚡ लाइव सूचना फीड</button>
+      <button class="drawer-item" onclick="toggleDrawer(false); triggerGeoFencingScan();">📍 लोकेशन री-स्कैन करें</button>
+      <div style="margin-top: auto; font-size: 10px; color: #757575; text-align: center;">Star Shops Engine<br>Explore Local Vibe (v1.0)</div>
+    </div>
+  </div>
+
+  <!-- FLOATING WINDOW (Bottom Card Overlay) -->
+  <div class="maps-bottom-card-overlay" id="mapsBottomCardOverlay" onclick="if(event.target === this) closeMapsBottomCard()">
+    <div class="maps-bottom-card" id="mapsBottomCardContent"></div>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://gejrzpflcuvlbpedliwq.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_dw9J2AX0nd3SxPrRy9JGCg_YqS8ZfUF";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let liveStores = [];
+  let currentSelectedCategory = 'ALL';
+  let currentSearchQuery = '';
+  
+  let userCurrentLocation = { 
+    lat: 28.7258, 
+    lon: 77.0588, 
+    detected: false,
+    areaName: '',
+    cityName: '',
+    postcode: ''
+  };
+
+  let mapInstance = null;
+  let markersLayer = null;
+  let routingLayer = null;
+  let activeTileLayer = null;
+  const defaultBanner = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80";
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    const savedTheme = localStorage.getItem('star_theme_mode');
+    if (savedTheme === 'white') {
+      applyWhiteThemeUI(true);
+    }
+    await fetchApprovedStoresFromSupabase();
+    triggerGeoFencingScan();
+  });
+
+  function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function triggerGeoFencingScan() {
+    const badge = document.getElementById('headerLocationText');
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        userCurrentLocation.lat = pos.coords.latitude;
+        userCurrentLocation.lon = pos.coords.longitude;
+        userCurrentLocation.detected = true;
+
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userCurrentLocation.lat}&lon=${userCurrentLocation.lon}&zoom=16&addressdetails=1`);
+          const geoData = await res.json();
+          const addr = geoData.address || {};
+          
+          const locality = addr.suburb || addr.neighbourhood || addr.residential || addr.village || addr.town || addr.city_district || '';
+          const city = addr.city || addr.state_district || addr.state || 'दिल्ली';
+          const pin = addr.postcode || '';
+
+          userCurrentLocation.areaName = locality;
+          userCurrentLocation.cityName = city;
+          userCurrentLocation.postcode = pin;
+
+          const displayLabel = locality ? `${locality}, ${city}` : city;
+          badge.innerText = `📍 ${displayLabel}`;
+          document.getElementById('activeAreaSubtext').innerText = locality ? `📍 ${locality}` : '';
+        } catch (e) {
+          badge.innerText = `📍 बेगमपुर, दिल्ली`;
         }
 
-        function getGPSLocation() {
-            const locationInput = document.getElementById('location');
-            if (navigator.geolocation) {
-                locationInput.value = "प्राप्त हो रही है...";
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    locationInput.value = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
-                }, () => { locationInput.value = ""; });
-            }
+        applyCombinedFilters();
+        if (mapInstance) {
+          mapInstance.setView([userCurrentLocation.lat, userCurrentLocation.lon], 15);
+          initOrRefreshMap();
+        }
+      }, () => {
+        badge.innerText = `📍 बेगमपुर, दिल्ली`;
+        applyCombinedFilters();
+      }, { enableHighAccuracy: true, timeout: 8000 });
+    } else {
+      badge.innerText = `📍 बेगमपुर, दिल्ली`;
+      applyCombinedFilters();
+    }
+  }
+
+  function openNetlifyForm() {
+    window.open('https://marchent-form.netlify.app/', '_blank');
+  }
+
+  function toggleDrawer(open) {
+    const overlay = document.getElementById('drawerOverlay');
+    if (open) overlay.classList.add('open');
+    else overlay.classList.remove('open');
+  }
+
+  function toggleInterfaceTheme() {
+    const shell = document.getElementById('appDeviceShell');
+    const isWhite = shell.classList.toggle('white-mode');
+    document.documentElement.classList.toggle('white-mode', isWhite);
+    document.body.classList.toggle('white-mode', isWhite);
+    
+    localStorage.setItem('star_theme_mode', isWhite ? 'white' : 'dark');
+    applyWhiteThemeUI(isWhite);
+  }
+
+  function applyWhiteThemeUI(isWhite) {
+    const shell = document.getElementById('appDeviceShell');
+    const btn = document.getElementById('themeToggleBtn');
+    const metaTheme = document.getElementById('themeColorMeta');
+    
+    if (isWhite) {
+      shell.classList.add('white-mode');
+      document.documentElement.classList.add('white-mode');
+      document.body.classList.add('white-mode');
+      btn.innerHTML = "🌙 ब्लैक मोड";
+      metaTheme.setAttribute('content', '#F8F9FA');
+    } else {
+      shell.classList.remove('white-mode');
+      document.documentElement.classList.remove('white-mode');
+      document.body.classList.remove('white-mode');
+      btn.innerHTML = "☀️ व्हाइट मोड";
+      metaTheme.setAttribute('content', '#050505');
+    }
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+    
+    if (tabName === 'map') {
+      document.getElementById('topSearchBarArea').style.display = 'none';
+      document.getElementById('dynamicCategoriesBar').style.display = 'none';
+    } else {
+      document.getElementById('topSearchBarArea').style.display = 'flex';
+      document.getElementById('dynamicCategoriesBar').style.display = 'flex';
+    }
+
+    document.querySelectorAll('.sleek-nav-item').forEach(n => n.classList.remove('active'));
+    if(tabName === 'home') document.getElementById('navHomeBtn').classList.add('active');
+    if(tabName === 'map') document.getElementById('navMapBtn').classList.add('active');
+    if(tabName === 'alerts') document.getElementById('navAlertsBtn').classList.add('active');
+
+    window.scrollTo(0,0);
+    if (tabName === 'map') setTimeout(initOrRefreshMap, 50);
+  }
+
+  async function fetchApprovedStoresFromSupabase() {
+    try {
+      const { data, error } = await supabaseClient
+        .from('merchants')
+        .select('*')
+        .eq('status', 'approved');
+
+      if (error) throw error;
+      liveStores = data || [];
+      generateDynamicCategoryPills(liveStores);
+      applyCombinedFilters();
+      if (mapInstance) initOrRefreshMap();
+    } catch(err) {
+      document.getElementById('dynamicStoresContainer').innerHTML = `<div style="text-align:center; padding:30px; color:#DC2626;">कनेक्शन में समस्या आई है। कृपया रिफ्रेश करें।</div>`;
+    }
+  }
+
+  function generateDynamicCategoryPills(stores) {
+    const categoriesSet = new Set();
+    stores.forEach(s => {
+      if (s.category && s.category.trim() !== '') {
+        categoriesSet.add(s.category.trim().toUpperCase());
+      }
+    });
+
+    const bar = document.getElementById('dynamicCategoriesBar');
+    let pillsHtml = `<div class="category-pill active" onclick="filterCategory('ALL', this)">सभी दुकानें</div>`;
+    
+    categoriesSet.forEach(cat => {
+      pillsHtml += `<div class="category-pill" onclick="filterCategory('${cat}', this)">${cat}</div>`;
+    });
+    bar.innerHTML = pillsHtml;
+  }
+
+  function handleLiveSearch(query) {
+    currentSearchQuery = query.toLowerCase().trim();
+    const clearBtn = document.getElementById('clearSearchBtn');
+    clearBtn.style.display = currentSearchQuery.length > 0 ? 'flex' : 'none';
+    
+    const mapTab = document.getElementById('tab-map');
+    if (mapTab.classList.contains('active')) {
+      switchTab('home');
+    }
+    applyCombinedFilters();
+  }
+
+  function clearLiveSearch() {
+    const input = document.getElementById('storeSearchInput');
+    input.value = '';
+    currentSearchQuery = '';
+    document.getElementById('clearSearchBtn').style.display = 'none';
+    applyCombinedFilters();
+    input.focus();
+  }
+
+  function filterCategory(cat, pillEl) {
+    document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+    pillEl.classList.add('active');
+    currentSelectedCategory = cat;
+    
+    const badge = document.getElementById('activeAlertCategoryBadge');
+    if (badge) {
+      badge.innerText = cat === 'ALL' ? 'सभी दुकानें' : cat;
+    }
+
+    applyCombinedFilters();
+  }
+
+  function applyCombinedFilters() {
+    let processedStores = liveStores.map(store => {
+      let distanceKm = null;
+      if (userCurrentLocation.detected && store.location && store.location.includes(',')) {
+        const parts = store.location.split(',');
+        const sLat = parseFloat(parts[0]);
+        const sLon = parseFloat(parts[1]);
+        if (!isNaN(sLat) && !isNaN(sLon)) {
+          distanceKm = calculateDistanceKm(userCurrentLocation.lat, userCurrentLocation.lon, sLat, sLon);
+        }
+      }
+
+      const addrLower = (store.address || '').toLowerCase();
+      const areaLower = (userCurrentLocation.areaName || '').toLowerCase();
+      const pinLower = (userCurrentLocation.postcode || '').toLowerCase();
+      
+      const addrCompact = addrLower.replace(/\s+/g, '');
+      const areaCompact = areaLower.replace(/\s+/g, '');
+
+      const isAreaTextMatch = (areaCompact.length > 2 && addrCompact.includes(areaCompact)) || 
+                              (pinLower.length > 3 && addrLower.includes(pinLower));
+      const isNearbyRadius = distanceKm !== null && distanceKm <= 15;
+
+      return {
+        ...store,
+        _distanceKm: distanceKm,
+        _isLocalMatch: isAreaTextMatch || isNearbyRadius
+      };
+    });
+
+    if (userCurrentLocation.detected && currentSearchQuery === '') {
+      const localMatches = processedStores.filter(s => s._isLocalMatch);
+      if (localMatches.length > 0) {
+        processedStores = localMatches;
+      }
+    }
+
+    processedStores.sort((a, b) => {
+      if (a._distanceKm !== null && b._distanceKm !== null) return a._distanceKm - b._distanceKm;
+      if (a._distanceKm !== null) return -1;
+      if (b._distanceKm !== null) return 1;
+      return 0;
+    });
+
+    if (currentSelectedCategory !== 'ALL') {
+      processedStores = processedStores.filter(s => (s.category || '').toUpperCase().includes(currentSelectedCategory));
+    }
+
+    if (currentSearchQuery !== '') {
+      processedStores = processedStores.filter(s => 
+        (s.store_name && s.store_name.toLowerCase().includes(currentSearchQuery)) ||
+        (s.address && s.address.toLowerCase().includes(currentSearchQuery)) ||
+        (s.category && s.category.toLowerCase().includes(currentSearchQuery)) ||
+        (s.phone && s.phone.toLowerCase().includes(currentSearchQuery))
+      );
+    }
+
+    renderStoresFeed(processedStores);
+    renderAlertsFeed(processedStores);
+  }
+
+  function renderStoresFeed(stores) {
+    const container = document.getElementById('dynamicStoresContainer');
+    if (!stores.length) {
+      container.innerHTML = `<div style="text-align:center; padding:30px; color:#757575;">इस कैटेगरी या लोकेशन में कोई दुकान नहीं मिली।</div>`;
+      return;
+    }
+    container.innerHTML = stores.map(store => {
+      let banner = store.image_url || defaultBanner;
+      let distBadge = store._distanceKm !== null ? `<span class="distance-tag">• ${store._distanceKm.toFixed(1)} km</span>` : '';
+      return `
+      <div class="merchant-card" onclick="openMapsBottomCard('${store.id}')">
+        <div class="card-banner"><img src="${banner}" alt="Store" loading="lazy"></div>
+        <div class="card-body">
+          <div class="store-title-row">
+            <span class="store-title">${store.store_name}</span>
+            <span class="star-merchant-badge">⭐ Star Merchant</span>
+          </div>
+          <div class="store-address">📍 ${store.address || 'बेगमपुर, दिल्ली'} • <span style="color:#34D399; font-weight:800;">Open</span>${distBadge}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderAlertsFeed(stores) {
+    const container = document.getElementById('liveAlertsContainer');
+    if (!stores.length) {
+      const catText = currentSelectedCategory === 'ALL' ? '' : `(${currentSelectedCategory}) `;
+      container.innerHTML = `<div style="text-align:center; padding:30px; color:#757575;">इस कैटेगरी ${catText}में कोई नई सूचना नहीं है।</div>`;
+      return;
+    }
+    container.innerHTML = stores.map(store => {
+      let distBadge = store._distanceKm !== null ? ` • ${store._distanceKm.toFixed(1)} km` : '';
+      const alertTitle = store.offer_message || store.message || `✨ नई दुकान लाइव हुई!`;
+      return `
+      <div class="merchant-card" style="padding:16px; border-left: 3px solid #BF953F;" onclick="openMapsBottomCard('${store.id}')">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div style="font-size: 12px; font-weight: 800;">${alertTitle}</div>
+          <span class="star-merchant-badge">⭐ Star Merchant</span>
+        </div>
+        <div style="font-size: 15px; font-weight: 900; margin-top: 4px;">${store.store_name}</div>
+        <div style="font-size: 11px; color: #9CA3AF; margin-top: 2px;">📍 ${store.address || 'बेगमपुर, दिल्ली'}${distBadge}</div>
+      </div>
+    `}).join('');
+  }
+
+  function openMapsBottomCard(storeId) {
+    const store = liveStores.find(s => s.id == storeId);
+    if (!store) return;
+    let banner = store.image_url || defaultBanner;
+    
+    document.getElementById('mapsBottomCardContent').innerHTML = `
+      <div style="width:40px; height:4px; background:#555; border-radius:2px; margin:0 auto 14px auto;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; gap:8px;">
+        <div style="min-width:0; flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <div style="font-size:20px; font-weight:900;" id="modalStoreName">${store.store_name}</div>
+            <span class="star-merchant-badge">⭐ Star Merchant</span>
+          </div>
+          <div style="font-size:12px; color:#34D399; font-weight:800; margin-top:2px;">${store.category || 'General'} • जियो-फेंसड</div>
+        </div>
+        <button onclick="closeMapsBottomCard()" style="background:none; border:none; color:inherit; font-size:20px; font-weight:bold; cursor:pointer; padding:0 4px;">✕</button>
+      </div>
+      <div style="font-size:12px; color:#9CA3AF; margin-bottom:12px;">Open • ${store.address || 'दिल्ली'}</div>
+      
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; margin-bottom:14px;">
+        <img src="${banner}" style="width:100%; height:90px; object-fit:cover; border-radius:8px;">
+        <img src="${banner}" style="width:100%; height:90px; object-fit:cover; border-radius:8px;">
+        <img src="${banner}" style="width:100%; height:90px; object-fit:cover; border-radius:8px;">
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button onclick="closeMapsBottomCard(); navigateToStore('${store.id}')" style="flex:1; background:#1E3A8A; color:#60A5FA; border:1px solid #3B82F6; padding:11px; border-radius:20px; font-weight:900; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+          🧭 Directions
+        </button>
+        <a href="tel:${store.phone}" style="flex:1; background:#064E3B; color:#34D399; border:1px solid #10B981; padding:11px; border-radius:20px; font-weight:900; font-size:13px; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">
+          📞 Call
+        </a>
+      </div>`;
+    document.getElementById('mapsBottomCardOverlay').classList.add('open');
+  }
+
+  function closeMapsBottomCard() {
+    document.getElementById('mapsBottomCardOverlay').classList.remove('open');
+  }
+
+  function navigateToStore(storeId) {
+    switchTab('map');
+    setTimeout(() => {
+      const store = liveStores.find(s => s.id == storeId);
+      if (store && mapInstance) {
+        let lat = userCurrentLocation.lat, lon = userCurrentLocation.lon;
+        if (store.location && store.location.includes(',')) {
+          let parts = store.location.split(',');
+          lat = parseFloat(parts[0]) || lat;
+          lon = parseFloat(parts[1]) || lon;
         }
 
-        document.getElementById('merchantForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.textContent = "डेटा सेव हो रहा है...";
-            submitBtn.disabled = true;
+        mapInstance.setView([lat, lon], 17, { animate: true, duration: 0.5 });
 
-            const merchantId = document.getElementById('merchantId').value.trim();
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const category = document.getElementById('category').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const location = document.getElementById('location').value.trim();
-            const imageFileInput = document.getElementById('storeImageFile');
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((pos) => {
+            let uLat = pos.coords.latitude;
+            let uLon = pos.coords.longitude;
 
-            let assignedImageUrl = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80";
+            if (routingLayer) mapInstance.removeLayer(routingLayer);
+            routingLayer = L.polyline([[uLat, uLon], [lat, lon]], { color: '#3B82F6', weight: 6, dashArray: '10, 10' }).addTo(mapInstance);
+            mapInstance.fitBounds(routingLayer.getBounds(), { padding: [50, 50] });
+          }, () => {
+            alert(`नेविगेशन रूट सेट: ${store.store_name}`);
+          });
+        }
+      }
+    }, 100);
+  }
 
-            try {
-                if (imageFileInput.files && imageFileInput.files[0]) {
-                    const file = imageFileInput.files[0];
-                    const filePath = `merchants/${merchantId}_${Date.now()}.${file.name.split('.').pop()}`;
-                    await _supabase.storage.from('store-images').upload(filePath, file);
-                    const { data: pubData } = _supabase.storage.from('store-images').getPublicUrl(filePath);
-                    if (pubData) assignedImageUrl = pubData.publicUrl;
-                }
+  function initOrRefreshMap() {
+    if (!mapInstance) {
+      mapInstance = L.map('mapContainer', { zoomControl: false, preferCanvas: true }).setView([userCurrentLocation.lat, userCurrentLocation.lon], 14);
+      L.control.zoom({ position: 'topleft' }).addTo(mapInstance);
+      
+      activeTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '' });
+      activeTileLayer.addTo(mapInstance);
+      markersLayer = L.layerGroup().addTo(mapInstance);
+    } else {
+      mapInstance.invalidateSize();
+    }
 
-                await _supabase.from('merchants').upsert([{
-                    id: merchantId, phone, store_name: name, category, address, location, image_url: assignedImageUrl, status: 'approved'
-                }]);
+    markersLayer.clearLayers();
+    let latLngs = [];
 
-                alert('सफलता! अब WhatsApp पर भेजा जा रहा है...');
-                window.location.href = `https://wa.me/919870242077?text=${encodeURIComponent(`नमस्ते, मैंने दुकान रजिस्टर कर दी है: ${name} (${merchantId})`)}`;
-            } catch (err) {
-                alert('एरर: ' + err.message);
-                submitBtn.textContent = "दुकान लाइव करें 🚀";
-                submitBtn.disabled = false;
-            }
-        });
-    </script>
+    liveStores.forEach(store => {
+      let lat = userCurrentLocation.lat + (Math.random() - 0.5) * 0.02;
+      let lon = userCurrentLocation.lon + (Math.random() - 0.5) * 0.02;
+      
+      if (store.location && store.location.includes(',')) {
+        let parts = store.location.split(',');
+        lat = parseFloat(parts[0]) || lat;
+        lon = parseFloat(parts[1]) || lon;
+      }
+
+      latLngs.push([lat, lon]);
+
+      const marker = L.marker([lat, lon]);
+      marker.bindPopup(`<b style="color:#000;">${store.store_name}</b><br><span style="color:#333;">⭐ Star Merchant</span><br><button onclick="openMapsBottomCard('${store.id}')" style="background:#2563EB; color:#fff; border:none; padding:5px 10px; border-radius:6px; font-weight:bold; margin-top:4px; cursor:pointer;">🧭 डिटेल्स देखें</button>`);
+
+      marker.on('dblclick', (e) => {
+        L.DomEvent.stopPropagation(e);
+        mapInstance.setView([lat, lon], 18, { animate: true, duration: 0.6 });
+        openMapsBottomCard(store.id);
+      });
+
+      markersLayer.addLayer(marker);
+    });
+
+    if (latLngs.length > 0 && mapInstance) {
+      const bounds = L.latLngBounds(latLngs);
+      mapInstance.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
+    }
+  }
+
+  function setMapLayer(type) {
+    document.getElementById('layerStandard').classList.remove('active');
+    document.getElementById('layerSatellite').classList.remove('active');
+
+    if (activeTileLayer) mapInstance.removeLayer(activeTileLayer);
+
+    if (type === 'standard') {
+      document.getElementById('layerStandard').classList.add('active');
+      activeTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '' });
+    } else if (type === 'satellite') {
+      document.getElementById('layerSatellite').classList.add('active');
+      activeTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '' });
+    }
+    activeTileLayer.addTo(mapInstance);
+  }
+</script>
 </body>
 </html>
