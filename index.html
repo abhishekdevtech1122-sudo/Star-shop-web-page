@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#050505" id="themeColorMeta">
-  <title>Star Shops | v1.0 Master Engine</title>
+  <title>Star Shops | Master Engine</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Leaflet CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -34,7 +34,7 @@
       position: relative; 
       display: flex; 
       flex-direction: column; 
-      padding-bottom: 85px; 
+      padding-bottom: 90px; 
       border-left: 1px solid rgba(212,175,55,0.2); 
       border-right: 1px solid rgba(212,175,55,0.2); 
       transition: all 0.3s ease; 
@@ -60,49 +60,67 @@
     .device-shell.white-mode .drawer-content { background: #FFFFFF !important; color: #111827 !important; }
     .device-shell.white-mode .drawer-item { background: #F3F4F6 !important; color: #111827 !important; border: 1px solid #D1D5DB !important; }
 
-    /* Professional Aligned Header Styles */
-    .top-header { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.25); position: sticky; top: 0; z-index: 40; width: 100%; }
-    
-    .header-left-group { display: flex; align-items: center; gap: 10px; }
-    
-    .burger-btn { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; width: 22px; height: 16px; padding: 0; }
-    .burger-line { width: 100%; height: 2.5px; background-color: #FCF6BA; border-radius: 2px; }
-
-    .brand-container { display: flex; flex-direction: column; justify-content: center; }
-    .brand-title { font-size: 15px; font-weight: 900; letter-spacing: 1px; background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+    /* Luxury Black Velvet & Metallic Gold Theme Defaults - FULL BRAND VISIBILITY */
+    .top-header { background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(20px); padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.25); position: sticky; top: 0; z-index: 40; width: 100%; gap: 6px; }
+    .brand-container { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .brand-title { font-size: 15px; font-weight: 900; letter-spacing: 0.5px; background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; flex-shrink: 0; }
 
     /* Header Actions */
-    .header-actions { display: flex; align-items: center; gap: 6px; }
-    .theme-toggle-btn { background: #121212; border: 1px solid rgba(212,175,55,0.4); color: #FCF6BA; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; }
-    .header-location-badge { font-size: 11px; color: #FCF6BA; background: #111; padding: 5px 10px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.3); white-space: nowrap; cursor: pointer; }
+    .header-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 1; min-width: 0; }
+    .theme-toggle-btn { background: #121212; border: 1px solid rgba(212,175,55,0.4); color: #FCF6BA; padding: 5px 8px; border-radius: 20px; font-size: 10.5px; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; }
+    .header-location-badge { font-size: 10.5px; color: #FCF6BA; background: #111; padding: 5px 8px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.3); white-space: nowrap; cursor: pointer; overflow: hidden; text-overflow: ellipsis; max-width: 115px; }
+    .burger-btn { background: #121212; border: 1px solid rgba(212,175,55,0.4); color: #FCF6BA; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; flex-shrink: 0; }
 
-    /* Google Style Search Bar */
-    .google-search-bar { margin: 10px 16px 6px 16px; background: #121212; border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 28px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-    .google-search-bar input { border: none; outline: none; width: 100%; font-size: 14px; color: inherit; background: transparent; }
-    .google-search-bar input::placeholder { color: #757575; }
+    /* Live Search Bar */
+    .google-search-bar { margin: 10px 16px 6px 16px; background: #121212; border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 28px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); transition: border 0.2s; }
+    .google-search-bar:focus-within { border-color: #FCF6BA; }
+    .google-search-bar input { border: none; outline: none; width: 100%; font-size: 13.5px; color: inherit; background: transparent; }
+    .google-search-bar input::placeholder { color: #888888; }
+    .clear-search-btn { background: rgba(255,255,255,0.1); border: none; color: #9CA3AF; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; display: none; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
 
     /* Dynamic Category Pills Bar */
-    .categories-pills-bar { display: flex; gap: 8px; padding: 4px 16px 10px 16px; overflow-x: auto; scrollbar-width: none; width: 100%; min-height: 44px; align-items: center; }
+    .categories-pills-bar { display: flex; gap: 8px; padding: 6px 16px 10px 16px; overflow-x: auto; scrollbar-width: none; width: 100%; min-height: 46px; align-items: center; }
     .categories-pills-bar::-webkit-scrollbar { display: none; }
-    .category-pill { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; background: #121212; border: 1px solid rgba(212,175,55,0.3); color: #FCF6BA; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; height: 32px; }
-    .category-pill.active { background: linear-gradient(to right, #BF953F, #FCF6BA); color: #050505; border: none; }
+    .category-pill { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; background: #121212; border: 1px solid rgba(212,175,55,0.3); color: #FCF6BA; padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; height: 34px; transition: all 0.2s; }
+    .category-pill.active { background: linear-gradient(to right, #BF953F, #FCF6BA); color: #050505; border: none; box-shadow: 0 2px 8px rgba(212,175,55,0.3); }
 
-    .tab-screen { display: none; padding: 0 16px 16px 16px; width: 100%; }
-    .tab-screen.active { display: block; }
-    .tab-screen#tab-map { padding: 0 !important; height: calc(100vh - 65px); display: flex; flex-direction: column; }
+    /* Tab Screens */
+    .tab-screen { display: none !important; padding: 0 16px 16px 16px; width: 100%; }
+    .tab-screen.active { display: block !important; }
+    .tab-screen#tab-map { padding: 0 !important; height: calc(100vh - 65px); }
+    .tab-screen#tab-map.active { display: flex !important; flex-direction: column; }
 
-    /* Clean Merchant Card */
+    /* Clean Merchant Card - FULL SHOP NAME VISIBILITY */
     .merchant-card { background: #0A0A0A; border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); cursor: pointer; transition: transform 0.2s; }
     .merchant-card:active { transform: scale(0.98); }
-    .card-banner { height: 140px; background: #111; position: relative; width: 100%; }
+    .card-banner { height: 145px; background: #111; position: relative; width: 100%; }
     .card-banner img { width: 100%; height: 100%; object-fit: cover; }
     .card-body { padding: 14px; }
     
-    .store-title-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 4px; width: 100%; }
-    .store-title { font-size: 16px; font-weight: 900; background: linear-gradient(to right, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; }
+    .store-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; width: 100%; }
+    .store-title { font-size: 16px; font-weight: 900; background: linear-gradient(to right, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.3; flex: 1; word-break: break-word; }
     
-    .star-merchant-badge { flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728); color: #030303; font-size: 9px; font-weight: 900; padding: 3px 8px; border-radius: 12px; box-shadow: 0 2px 8px rgba(212,175,55,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
-    .store-address { font-size: 12px; color: #9CA3AF; }
+    /* EXACT NATURAL GOLD BADGE */
+    .star-merchant-badge { 
+      flex-shrink: 0; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 3px; 
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728); 
+      color: #030303 !important; 
+      -webkit-text-fill-color: #030303 !important;
+      font-size: 9px; 
+      font-weight: 900; 
+      padding: 3px 8px; 
+      border-radius: 12px; 
+      box-shadow: 0 2px 8px rgba(212,175,55,0.4); 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      margin-top: 2px;
+    }
+
+    .store-address { font-size: 12px; color: #9CA3AF; line-height: 1.4; }
+    .distance-tag { font-size: 11px; color: #D4AF37; font-weight: 800; margin-left: 4px; }
 
     /* Full Screen Map Container */
     #mapContainer { width: 100%; height: 100% !important; flex-grow: 1; background: #111; position: relative; border-radius: 0 !important; border: none !important; }
@@ -113,17 +131,53 @@
     .layer-btn.active { background: #FCF6BA; color: #050505; }
 
     /* Sleek Bottom Navigation Bar */
-    .google-sleek-nav { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 440px; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(212,175,55,0.3); border-radius: 32px; display: flex; align-items: center; padding: 6px 10px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow-x: auto; scrollbar-width: none; gap: 6px; }
-    .google-sleek-nav::-webkit-scrollbar { display: none; }
+    .google-sleek-nav { 
+      position: fixed; 
+      bottom: 12px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      width: calc(100% - 24px); 
+      max-width: 440px; 
+      background: rgba(18, 18, 18, 0.96); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px); 
+      border: 1px solid rgba(212,175,55,0.3); 
+      border-radius: 35px; 
+      display: flex; 
+      justify-content: space-between;
+      align-items: center; 
+      padding: 6px; 
+      z-index: 9999; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85); 
+      gap: 4px; 
+    }
     
-    .sleek-nav-item { flex: 0 0 auto; min-width: 75px; text-align: center; color: #9CA3AF; font-size: 10px; font-weight: 800; cursor: pointer; padding: 6px 10px; border-radius: 20px; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .sleek-nav-item { 
+      flex: 1 1 0; 
+      min-width: 0; 
+      text-align: center; 
+      color: #9CA3AF; 
+      font-size: 10px; 
+      font-weight: 800; 
+      cursor: pointer; 
+      padding: 7px 4px; 
+      border-radius: 25px; 
+      transition: all 0.25s ease; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center;
+      gap: 2px; 
+      white-space: nowrap;
+    }
+    .sleek-nav-item span:first-child { font-size: 14px; line-height: 1; }
     .sleek-nav-item.active { color: #050505; background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); box-shadow: 0 2px 10px rgba(212,175,55,0.4); }
 
     /* Side Drawer Menu */
     .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; display: none; justify-content: flex-start; backdrop-filter: blur(5px); }
     .drawer-overlay.open { display: flex; }
-    .drawer-content { width: 280px; height: 100%; background: #0A0A0A; border-right: 1px solid rgba(212,175,55,0.3); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-    .drawer-item { padding: 14px; background: #121212; border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; color: #FCF6BA; font-weight: 800; font-size: 14px; cursor: pointer; text-align: left; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .drawer-content { width: 280px; height: 100%; background: #0A0A0A; border-right: 1px solid rgba(212,175,55,0.3); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .drawer-item { padding: 14px; background: #121212; border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; color: #FCF6BA; font-weight: 800; font-size: 14px; cursor: pointer; text-align: left; text-decoration: none; display: flex; align-items: center; gap: 10px; width: 100%; }
 
     /* Floating Window (Bottom Card Overlay) */
     .maps-bottom-card-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999999; display: none; align-items: flex-end; backdrop-filter: blur(2px); }
@@ -136,25 +190,23 @@
 
 <div class="device-shell" id="appDeviceShell">
   <header class="top-header">
-    <div class="header-left-group">
-      <button class="burger-btn" onclick="toggleDrawer(true)">
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-      </button>
+    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+      <div class="burger-btn" onclick="toggleDrawer(true)">☰</div>
       <div class="brand-container">
         <div class="brand-title">★ STAR SHOPS</div>
       </div>
     </div>
     <div class="header-actions">
       <button class="theme-toggle-btn" onclick="toggleInterfaceTheme()" id="themeToggleBtn">☀️ व्हाइट मोड</button>
-      <div class="header-location-badge" id="headerLocationText" onclick="triggerGeoFencingScan()">📍 जियो-स्कैन</div>
+      <div class="header-location-badge" id="headerLocationText" onclick="triggerGeoFencingScan()">📍 बेगमपुर, दिल्ली</div>
     </div>
   </header>
 
-  <!-- Google Style Search Bar -->
+  <!-- Live Search Bar -->
   <div class="google-search-bar" id="topSearchBarArea">
     <span>🔍</span>
-    <input type="text" id="storeSearchInput" placeholder="दुकान, एरिया या सर्विस खोजें..." oninput="filterStores(this.value)">
+    <input type="text" id="storeSearchInput" placeholder="जेमिनी एआई सर्च: दुकान, एरिया या सर्विस खोजें..." oninput="handleLiveSearch(this.value)" autocomplete="off">
+    <button class="clear-search-btn" id="clearSearchBtn" onclick="clearLiveSearch()">✕</button>
   </div>
 
   <!-- Dynamic Category Pills Bar -->
@@ -164,9 +216,14 @@
 
   <!-- TAB 1: HOME FEED -->
   <main id="tab-home" class="tab-screen active">
-    <div style="font-size: 13px; font-weight: 900; margin: 4px 0 10px 0;">🏪 Explore Local Vibe (v1.0)</div>
+    <div style="font-size: 13px; font-weight: 900; margin: 4px 0 12px 0; display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span>🏪</span> <span>Explore Local Vibe (v1.0)</span>
+      </div>
+      <span id="activeAreaSubtext" style="font-size:11px; color:#D4AF37; font-weight:800;"></span>
+    </div>
     <div id="dynamicStoresContainer">
-      <div style="text-align:center; padding:40px; color:#757575;">डेटा लोड हो रहा है...</div>
+      <div style="text-align:center; padding:40px; color:#757575;">दुकानें लोड हो रही हैं...</div>
     </div>
   </main>
 
@@ -180,15 +237,18 @@
     </div>
   </main>
 
-  <!-- TAB 3: LIVE NOTIFICATIONS -->
+  <!-- TAB 3: LIVE NOTIFICATIONS (MESSAGE BOX WITH CATEGORY SYNC) -->
   <main id="tab-alerts" class="tab-screen">
-    <div style="font-size: 13px; font-weight: 900; margin: 4px 0 10px 0;">⚡ लाइव सूचना फीड</div>
+    <div style="font-size: 13px; font-weight: 900; margin: 4px 0 12px 0; display:flex; justify-content:space-between; align-items:center;">
+      <span>⚡ लाइव सूचना फीड</span>
+      <span id="activeAlertCategoryBadge" style="font-size:11px; color:#D4AF37; font-weight:800;">सभी दुकानें</span>
+    </div>
     <div id="liveAlertsContainer">
       <div style="text-align:center; padding:40px; color:#757575;">सूचनाएं लोड हो रही हैं...</div>
     </div>
   </main>
 
-  <!-- GOOGLE MAPS STYLE SCROLLABLE BOTTOM NAVIGATION BAR -->
+  <!-- GOOGLE MAPS STYLE BOTTOM NAVIGATION BAR -->
   <nav class="google-sleek-nav" id="bottomScrollingNav">
     <div class="sleek-nav-item active" id="navHomeBtn" onclick="switchTab('home')">
       <span>📍</span>
@@ -215,12 +275,12 @@
   <!-- SIDE DRAWER MENU -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="if(event.target === this) toggleDrawer(false)">
     <div class="drawer-content">
-      <div style="font-size: 18px; font-weight: 900; margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 10px;">⚡ नेविगेशन मेन्यू</div>
-      <button onclick="openNetlifyForm()" class="drawer-item" style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; width:100%;">➕ Add Place (दुकान जोड़ें)</button>
-      <button class="drawer-item" onclick="toggleDrawer(false); switchTab('map');" style="width:100%;">🗺️ स्ट्रीट मैप व्यू</button>
-      <button class="drawer-item" onclick="toggleDrawer(false); switchTab('alerts');" style="width:100%;">⚡ लाइव सूचना फीड</button>
-      <button class="drawer-item" onclick="toggleDrawer(false); triggerGeoFencingScan();" style="width:100%;">📍 जियो-फेंसिंग स्कैन</button>
-      <div style="margin-top: auto; font-size: 10px; color: #757575; text-align: center;">Star Shops Engine v1.0<br>Explore Local Vibe</div>
+      <div style="font-size: 18px; font-weight: 900; margin-bottom: 6px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 12px;">⚡ नेविगेशन मेन्यू</div>
+      <button onclick="openNetlifyForm()" class="drawer-item">➕ Add Place (दुकान जोड़ें)</button>
+      <button class="drawer-item" onclick="toggleDrawer(false); switchTab('map');">🗺️ स्ट्रीट मैप व्यू</button>
+      <button class="drawer-item" onclick="toggleDrawer(false); switchTab('alerts');">⚡ लाइव सूचना फीड</button>
+      <button class="drawer-item" onclick="toggleDrawer(false); triggerGeoFencingScan();">📍 लोकेशन री-स्कैन करें</button>
+      <div style="margin-top: auto; font-size: 10px; color: #757575; text-align: center;">Star Shops Engine<br>Explore Local Vibe (v1.0)</div>
     </div>
   </div>
 
@@ -236,7 +296,18 @@
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let liveStores = [];
-  let userCurrentLocation = { lat: 28.7041, lon: 77.1025 };
+  let currentSelectedCategory = 'ALL';
+  let currentSearchQuery = '';
+  
+  let userCurrentLocation = { 
+    lat: 28.7258, 
+    lon: 77.0588, 
+    detected: false,
+    areaName: '',
+    cityName: '',
+    postcode: ''
+  };
+
   let mapInstance = null;
   let markersLayer = null;
   let routingLayer = null;
@@ -248,22 +319,62 @@
     if (savedTheme === 'white') {
       applyWhiteThemeUI(true);
     }
-    triggerGeoFencingScan();
     await fetchApprovedStoresFromSupabase();
+    triggerGeoFencingScan();
   });
 
+  function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
   function triggerGeoFencingScan() {
+    const badge = document.getElementById('headerLocationText');
+
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
+      navigator.geolocation.getCurrentPosition(async (pos) => {
         userCurrentLocation.lat = pos.coords.latitude;
         userCurrentLocation.lon = pos.coords.longitude;
-        document.getElementById('headerLocationText').innerText = `📍 जियो-फेंस सक्रिय`;
+        userCurrentLocation.detected = true;
+
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userCurrentLocation.lat}&lon=${userCurrentLocation.lon}&zoom=16&addressdetails=1`);
+          const geoData = await res.json();
+          const addr = geoData.address || {};
+          
+          const locality = addr.suburb || addr.neighbourhood || addr.residential || addr.village || addr.town || addr.city_district || '';
+          const city = addr.city || addr.state_district || addr.state || 'दिल्ली';
+          const pin = addr.postcode || '';
+
+          userCurrentLocation.areaName = locality;
+          userCurrentLocation.cityName = city;
+          userCurrentLocation.postcode = pin;
+
+          const displayLabel = locality ? `${locality}, ${city}` : city;
+          badge.innerText = `📍 ${displayLabel}`;
+          document.getElementById('activeAreaSubtext').innerText = locality ? `📍 ${locality}` : '';
+        } catch (e) {
+          badge.innerText = `📍 बेगमपुर, दिल्ली`;
+        }
+
+        applyCombinedFilters();
         if (mapInstance) {
           mapInstance.setView([userCurrentLocation.lat, userCurrentLocation.lon], 15);
+          initOrRefreshMap();
         }
       }, () => {
-        document.getElementById('headerLocationText').innerText = `📍 बेगमपुर, दिल्ली`;
-      });
+        badge.innerText = `📍 बेगमपुर, दिल्ली`;
+        applyCombinedFilters();
+      }, { enableHighAccuracy: true, timeout: 8000 });
+    } else {
+      badge.innerText = `📍 बेगमपुर, दिल्ली`;
+      applyCombinedFilters();
     }
   }
 
@@ -325,7 +436,7 @@
     if(tabName === 'alerts') document.getElementById('navAlertsBtn').classList.add('active');
 
     window.scrollTo(0,0);
-    if (tabName === 'map') setTimeout(initOrRefreshMap, 10);
+    if (tabName === 'map') setTimeout(initOrRefreshMap, 50);
   }
 
   async function fetchApprovedStoresFromSupabase() {
@@ -338,11 +449,10 @@
       if (error) throw error;
       liveStores = data || [];
       generateDynamicCategoryPills(liveStores);
-      renderStoresFeed(liveStores);
-      renderAlertsFeed(liveStores);
+      applyCombinedFilters();
       if (mapInstance) initOrRefreshMap();
     } catch(err) {
-      document.getElementById('dynamicStoresContainer').innerHTML = `<div style="text-align:center; padding:30px; color:#DC2626;">डेटाबेस से कनेक्ट करने में त्रुटि हुई।</div>`;
+      document.getElementById('dynamicStoresContainer').innerHTML = `<div style="text-align:center; padding:30px; color:#DC2626;">कनेक्शन में समस्या आई है। कृपया रिफ्रेश करें।</div>`;
     }
   }
 
@@ -363,23 +473,119 @@
     bar.innerHTML = pillsHtml;
   }
 
+  function handleLiveSearch(query) {
+    currentSearchQuery = query.toLowerCase().trim();
+    const clearBtn = document.getElementById('clearSearchBtn');
+    clearBtn.style.display = currentSearchQuery.length > 0 ? 'flex' : 'none';
+    
+    const mapTab = document.getElementById('tab-map');
+    if (mapTab.classList.contains('active')) {
+      switchTab('home');
+    }
+    applyCombinedFilters();
+  }
+
+  function clearLiveSearch() {
+    const input = document.getElementById('storeSearchInput');
+    input.value = '';
+    currentSearchQuery = '';
+    document.getElementById('clearSearchBtn').style.display = 'none';
+    applyCombinedFilters();
+    input.focus();
+  }
+
+  function filterCategory(cat, pillEl) {
+    document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+    pillEl.classList.add('active');
+    currentSelectedCategory = cat;
+    
+    const badge = document.getElementById('activeAlertCategoryBadge');
+    if (badge) {
+      badge.innerText = cat === 'ALL' ? 'सभी दुकानें' : cat;
+    }
+
+    applyCombinedFilters();
+  }
+
+  function applyCombinedFilters() {
+    let processedStores = liveStores.map(store => {
+      let distanceKm = null;
+      if (userCurrentLocation.detected && store.location && store.location.includes(',')) {
+        const parts = store.location.split(',');
+        const sLat = parseFloat(parts[0]);
+        const sLon = parseFloat(parts[1]);
+        if (!isNaN(sLat) && !isNaN(sLon)) {
+          distanceKm = calculateDistanceKm(userCurrentLocation.lat, userCurrentLocation.lon, sLat, sLon);
+        }
+      }
+
+      const addrLower = (store.address || '').toLowerCase();
+      const areaLower = (userCurrentLocation.areaName || '').toLowerCase();
+      const pinLower = (userCurrentLocation.postcode || '').toLowerCase();
+      
+      const addrCompact = addrLower.replace(/\s+/g, '');
+      const areaCompact = areaLower.replace(/\s+/g, '');
+
+      const isAreaTextMatch = (areaCompact.length > 2 && addrCompact.includes(areaCompact)) || 
+                              (pinLower.length > 3 && addrLower.includes(pinLower));
+      const isNearbyRadius = distanceKm !== null && distanceKm <= 15;
+
+      return {
+        ...store,
+        _distanceKm: distanceKm,
+        _isLocalMatch: isAreaTextMatch || isNearbyRadius
+      };
+    });
+
+    if (userCurrentLocation.detected && currentSearchQuery === '') {
+      const localMatches = processedStores.filter(s => s._isLocalMatch);
+      if (localMatches.length > 0) {
+        processedStores = localMatches;
+      }
+    }
+
+    processedStores.sort((a, b) => {
+      if (a._distanceKm !== null && b._distanceKm !== null) return a._distanceKm - b._distanceKm;
+      if (a._distanceKm !== null) return -1;
+      if (b._distanceKm !== null) return 1;
+      return 0;
+    });
+
+    if (currentSelectedCategory !== 'ALL') {
+      processedStores = processedStores.filter(s => (s.category || '').toUpperCase().includes(currentSelectedCategory));
+    }
+
+    if (currentSearchQuery !== '') {
+      processedStores = processedStores.filter(s => 
+        (s.store_name && s.store_name.toLowerCase().includes(currentSearchQuery)) ||
+        (s.address && s.address.toLowerCase().includes(currentSearchQuery)) ||
+        (s.category && s.category.toLowerCase().includes(currentSearchQuery)) ||
+        (s.phone && s.phone.toLowerCase().includes(currentSearchQuery))
+      );
+    }
+
+    renderStoresFeed(processedStores);
+    renderAlertsFeed(processedStores);
+  }
+
   function renderStoresFeed(stores) {
     const container = document.getElementById('dynamicStoresContainer');
     if (!stores.length) {
-      container.innerHTML = `<div style="text-align:center; padding:30px; color:#757575;">डेटाबेस में कोई अप्रूव्ड दुकान उपलब्ध नहीं है।</div>`;
+      container.innerHTML = `<div style="text-align:center; padding:30px; color:#757575;">इस कैटेगरी या लोकेशन में कोई दुकान नहीं मिली।</div>`;
       return;
     }
     container.innerHTML = stores.map(store => {
       let banner = store.image_url || defaultBanner;
+      let distBadge = store._distanceKm !== null ? `<span class="distance-tag">• ${store._distanceKm.toFixed(1)} km</span>` : '';
       return `
       <div class="merchant-card" onclick="openMapsBottomCard('${store.id}')">
-        <div class="card-banner"><img src="${banner}" alt="Store"></div>
+        <div class="card-banner"><img src="${banner}" alt="Store" loading="lazy"></div>
         <div class="card-body">
           <div class="store-title-row">
             <span class="store-title">${store.store_name}</span>
-            <span class="star-merchant-badge">⭐ STAR MERCHANT</span>
+            <span class="star-merchant-badge">⭐ Star Merchant</span>
           </div>
-          <div class="store-address">📍 ${store.address || 'दिल्ली'} • <span style="color:#34D399; font-weight:800;">Open</span></div>
+          <div class="store-address">📍 ${store.address || 'बेगमपुर, दिल्ली'} • <span style="color:#34D399; font-weight:800;">Open</span>${distBadge}</div>
         </div>
       </div>`;
     }).join('');
@@ -388,19 +594,23 @@
   function renderAlertsFeed(stores) {
     const container = document.getElementById('liveAlertsContainer');
     if (!stores.length) {
-      container.innerHTML = `<div style="text-align:center; padding:30px; color:#757575;">कोई नई सूचना नहीं है।</div>`;
+      const catText = currentSelectedCategory === 'ALL' ? '' : `(${currentSelectedCategory}) `;
+      container.innerHTML = `<div style="text-align:center; padding:30px; color:#757575;">इस कैटेगरी ${catText}में कोई नई सूचना नहीं है।</div>`;
       return;
     }
-    container.innerHTML = stores.map(store => `
+    container.innerHTML = stores.map(store => {
+      let distBadge = store._distanceKm !== null ? ` • ${store._distanceKm.toFixed(1)} km` : '';
+      const alertTitle = store.offer_message || store.message || `✨ नई दुकान लाइव हुई!`;
+      return `
       <div class="merchant-card" style="padding:16px; border-left: 3px solid #BF953F;" onclick="openMapsBottomCard('${store.id}')">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div style="font-size: 12px; font-weight: 800;">✨ नई दुकान लाइव हुई!</div>
-          <span class="star-merchant-badge">⭐ STAR MERCHANT</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div style="font-size: 12px; font-weight: 800;">${alertTitle}</div>
+          <span class="star-merchant-badge">⭐ Star Merchant</span>
         </div>
         <div style="font-size: 15px; font-weight: 900; margin-top: 4px;">${store.store_name}</div>
-        <div style="font-size: 11px; margin-top: 2px;">📍 ${store.address || 'बेगमपुर, दिल्ली'}</div>
+        <div style="font-size: 11px; color: #9CA3AF; margin-top: 2px;">📍 ${store.address || 'बेगमपुर, दिल्ली'}${distBadge}</div>
       </div>
-    `).join('');
+    `}).join('');
   }
 
   function openMapsBottomCard(storeId) {
@@ -410,15 +620,15 @@
     
     document.getElementById('mapsBottomCardContent').innerHTML = `
       <div style="width:40px; height:4px; background:#555; border-radius:2px; margin:0 auto 14px auto;"></div>
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
-        <div>
-          <div style="display:flex; align-items:center; gap:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; gap:8px;">
+        <div style="min-width:0; flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <div style="font-size:20px; font-weight:900;" id="modalStoreName">${store.store_name}</div>
-            <span class="star-merchant-badge">⭐ STAR MERCHANT</span>
+            <span class="star-merchant-badge">⭐ Star Merchant</span>
           </div>
           <div style="font-size:12px; color:#34D399; font-weight:800; margin-top:2px;">${store.category || 'General'} • जियो-फेंसड</div>
         </div>
-        <button onclick="closeMapsBottomCard()" style="background:none; border:none; color:inherit; font-size:20px; font-weight:bold; cursor:pointer;">✕</button>
+        <button onclick="closeMapsBottomCard()" style="background:none; border:none; color:inherit; font-size:20px; font-weight:bold; cursor:pointer; padding:0 4px;">✕</button>
       </div>
       <div style="font-size:12px; color:#9CA3AF; margin-bottom:12px;">Open • ${store.address || 'दिल्ली'}</div>
       
@@ -471,23 +681,6 @@
         }
       }
     }, 100);
-  }
-
-  function filterStores(query) {
-    const term = query.toLowerCase().trim();
-    const filtered = liveStores.filter(s => s.store_name.toLowerCase().includes(term) || (s.address && s.address.toLowerCase().includes(term)) || (s.category && s.category.toLowerCase().includes(term)));
-    renderStoresFeed(filtered);
-  }
-
-  function filterCategory(cat, pillEl) {
-    document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
-    pillEl.classList.add('active');
-    if (cat === 'ALL') {
-      renderStoresFeed(liveStores);
-    } else {
-      const filtered = liveStores.filter(s => (s.category || '').toUpperCase().includes(cat));
-      renderStoresFeed(filtered);
-    }
   }
 
   function initOrRefreshMap() {
